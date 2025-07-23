@@ -9,13 +9,18 @@ export default function Timeline() {
 
   return (
     <div className="w-full bg-white text-[#0074D9] py-12">
-      {/* Year Selector */}
-      <div className="flex overflow-x-auto space-x-3 px-8 mb-10 scrollbar-hide">
+      {/* Year Buttons */}
+      <div
+        className="
+          flex flex-wrap justify-center gap-3 px-8 mb-10 
+          md:flex-nowrap md:overflow-x-auto md:scrollbar-hide
+        "
+      >
         {years.map((year) => (
           <button
             key={year}
             onClick={() => setSelectedYear(year)}
-            className={`px-6 py-2 text-lg rounded-full border transition font-medium ${
+            className={`px-6 py-2 text-lg font-bold rounded-full border transition ${
               selectedYear === year
                 ? "bg-[#0074D9] text-white border-[#0074D9]"
                 : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
@@ -27,17 +32,22 @@ export default function Timeline() {
       </div>
 
       {/* Timeline Cards */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory px-8 space-x-8 scrollbar-hide">
+      <div
+        className="
+          grid gap-8 px-8
+          md:flex md:overflow-x-auto md:scrollbar-hide md:space-x-8
+        "
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
+      >
         {timelineData[selectedYear].map((item, index) => (
           <motion.div
             key={index}
             whileHover={{
-              rotateY: 3,
               scale: 1.04,
-              boxShadow: "0 8px 20px rgba(0,0,0,0.12)"
+              boxShadow: "0 6px 18px rgba(0,0,0,0.1)"
             }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="min-w-[350px] bg-white rounded-2xl border border-gray-200 p-6 flex-shrink-0 snap-center cursor-pointer hover:border-[#0074D9] transition"
+            transition={{ type: "spring", stiffness: 180, damping: 20 }}
+            className="bg-white rounded-xl border border-gray-200 p-6 cursor-pointer hover:border-[#0074D9] transition"
             onClick={() => setModalData(item)}
           >
             <img
@@ -45,7 +55,7 @@ export default function Timeline() {
               alt={item.title}
               className="w-full h-44 object-cover rounded-lg mb-4"
             />
-            <h3 className="text-xl font-semibold mb-2 text-gray-900">
+            <h3 className="text-xl font-bold mb-2 text-gray-900">
               {item.title}
             </h3>
             <p className="text-sm text-gray-600">{item.shortDescription}</p>
@@ -53,7 +63,7 @@ export default function Timeline() {
         ))}
       </div>
 
-      {/* Modal for long description */}
+      {/* Modal */}
       {modalData && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <motion.div
@@ -67,10 +77,17 @@ export default function Timeline() {
             >
               ×
             </button>
+            <img
+              src={modalData.image}
+              alt={modalData.title}
+              className="w-full h-52 object-cover rounded-lg mb-4"
+            />
             <h2 className="text-2xl font-bold mb-4 text-[#0074D9]">
               {modalData.title}
             </h2>
-            <p className="text-gray-700 leading-relaxed">{modalData.longDescription}</p>
+            <p className="text-gray-700 leading-relaxed">
+              {modalData.longDescription}
+            </p>
           </motion.div>
         </div>
       )}
