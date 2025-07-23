@@ -1,11 +1,9 @@
 import Timeline from "./components/Timeline";
 
-function App() {
+export default function App() {
   return (
-    <div>
+    <div className="min-h-screen bg-white text-[#0074D9] p-4">
       <Timeline />
     </div>
   );
 }
-
-export default App;
